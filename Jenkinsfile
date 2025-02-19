@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Terraform Init') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials-id']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'AWS Jenkins']]) {
                     dir('terraform-infra') {
                         sh 'terraform init'
                     }
@@ -22,7 +22,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials-id']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'AWS Jenkins']]) {
                     dir('terraform-infra') {
                         sh "terraform plan -var-file=${TFVARS_FILE}"
                     }
@@ -53,7 +53,7 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials-id']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'AWS Jenkins']]) {
                     dir('terraform-infra') {
                         sh "terraform apply -auto-approve -var-file=${TFVARS_FILE}"
                     }
